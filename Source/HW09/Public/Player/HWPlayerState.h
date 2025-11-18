@@ -25,9 +25,9 @@ public:
 	UPROPERTY(Replicated)
 	FString PlayerNameString;
 
-	UPROPERTY(Replicated)
+	UPROPERTY(ReplicatedUsing = OnRep_GuessCount)
 	int32 CurrentGuessCount;
-
+	
 	UPROPERTY(Replicated)
 	int32 MaxGuessCount;
 	
@@ -41,5 +41,8 @@ protected:
 
 	UFUNCTION()
 	void OnRep_PlayerIndex();
+	
+	UFUNCTION()
+	void OnRep_GuessCount();
 
 };

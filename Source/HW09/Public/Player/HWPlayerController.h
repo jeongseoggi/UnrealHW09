@@ -48,8 +48,8 @@ public:
 	UFUNCTION(Client, Reliable)
 	void ClientRPCSetStartButton(bool bIsShow);
 
-	UFUNCTION(Client, Reliable)
-	void ClientRPCSetSetTurnTextTurnText(int32 NewGuessCount);
+	UFUNCTION()
+	void SetTurnText(int32 NewGuessCount, int32 MaxGuessCount);
 
 protected:
 	UPROPERTY(EditDefaultsOnly)

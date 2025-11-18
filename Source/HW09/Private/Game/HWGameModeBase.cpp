@@ -273,6 +273,7 @@ void AHWGameModeBase::IncreaseGuessCount(AHWPlayerController* InChattingPlayerCo
 	if (AHWPlayerState* HWPS = InChattingPlayerController->GetPlayerState<AHWPlayerState>())
 	{
 		HWPS->CurrentGuessCount++;
+		UE_LOG(LogTemp, Warning, TEXT("SERVER Count = %d %s"), HWPS->CurrentGuessCount, *HWPS->GetName());
 	}
 }
 
@@ -283,7 +284,6 @@ void AHWGameModeBase::ResetGame()
 		if (AHWPlayerState* HWPS = AllPlayerControllers[i]->GetPlayerState<AHWPlayerState>())
 		{
 			HWPS->CurrentGuessCount = 0;
-			AllPlayerControllers[i]->ClientRPCSetSetTurnTextTurnText(HWPS->CurrentGuessCount);
 			if (i == 0)
 			{
 				AllPlayerControllers[i]->ClientRPCSetStartButton(true);
@@ -302,7 +302,7 @@ void AHWGameModeBase::NextTurn()
 
 	if (AHWPlayerState* HWPS = AllPlayerControllers[CurPlayerIndex]->GetPlayerState<AHWPlayerState>())
 	{
-		AllPlayerControllers[CurPlayerIndex]->ClientRPCSetSetTurnTextTurnText(HWPS->CurrentGuessCount);
+		//AllPlayerControllers[CurPlayerIndex]->ClientRPCSetSetTurnTextTurnText(HWPS->CurrentGuessCount);
 	}
 
 	CurPlayerIndex = (CurPlayerIndex + 1) % AllPlayerControllers.Num();

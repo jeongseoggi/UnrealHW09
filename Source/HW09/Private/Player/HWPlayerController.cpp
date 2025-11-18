@@ -176,11 +176,10 @@ void AHWPlayerController::ClientRPCSetStartButton_Implementation(bool bIsShow)
 	HUDWidgetInstance->SetShowButton(bIsShow);
 }
 
-void AHWPlayerController::ClientRPCSetSetTurnTextTurnText_Implementation(int32 NewGuessCount)
+void AHWPlayerController::SetTurnText(int32 NewGuessCount, int32 MaxGuessCount)
 {
-	AHWPlayerState* HWPS = GetPlayerState<AHWPlayerState>();
-	if(IsValid(HWPS))
+	if (IsValid(HUDWidgetInstance))
 	{
-		HUDWidgetInstance->SetTurnText(NewGuessCount, HWPS->MaxGuessCount);
+		HUDWidgetInstance->SetTurnText(NewGuessCount, MaxGuessCount);
 	}
 }

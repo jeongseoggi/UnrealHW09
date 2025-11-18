@@ -29,6 +29,18 @@ void AHWPlayerState::OnRep_PlayerIndex()
 	OnPlayerIndexChanged.Broadcast(PlayerIndex);
 }
 
+void AHWPlayerState::OnRep_GuessCount()
+{
+	APlayerController* PC = Cast<APlayerController>(GetOwner());
+	if (IsValid(PC))
+	{
+		if (AHWPlayerController* HWPC = Cast<AHWPlayerController>(PC))
+		{
+			HWPC->SetTurnText(CurrentGuessCount, MaxGuessCount);
+		}
+	}
+}
+
 
 
 
