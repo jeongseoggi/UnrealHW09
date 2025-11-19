@@ -36,7 +36,7 @@ public:
 
 	void ResetGame();
 
-	void NextTurn();
+	void NextTurn(bool bIsTimeOver = false);
 
 protected:
 	FString SecretNumberString;

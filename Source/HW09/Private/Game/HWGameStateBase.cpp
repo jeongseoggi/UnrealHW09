@@ -74,7 +74,7 @@ void AHWGameStateBase::TickTurnTimer()
 		{
 			if (AHWGameModeBase* HWGM = Cast<AHWGameModeBase>(GM))
 			{
-				HWGM->NextTurn();
+				HWGM->NextTurn(true);
 			}
 		}
 	}

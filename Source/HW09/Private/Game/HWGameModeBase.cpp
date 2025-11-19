@@ -273,7 +273,6 @@ void AHWGameModeBase::IncreaseGuessCount(AHWPlayerController* InChattingPlayerCo
 	if (AHWPlayerState* HWPS = InChattingPlayerController->GetPlayerState<AHWPlayerState>())
 	{
 		HWPS->CurrentGuessCount++;
-		UE_LOG(LogTemp, Warning, TEXT("SERVER Count = %d %s"), HWPS->CurrentGuessCount, *HWPS->GetName());
 	}
 }
 
@@ -293,28 +292,32 @@ void AHWGameModeBase::ResetGame()
 
 	if (AHWGameStateBase* HWGS = GetGameState<AHWGameStateBase>())
 	{
+		HWGS->SetIsGameStart(false);
 		HWGS->ResetTimer();
 	}
 }
 
-void AHWGameModeBase::NextTurn()
+void AHWGameModeBase::NextTurn(bool bIsTimeOver)
 {
-
-	if (AHWPlayerState* HWPS = AllPlayerControllers[CurPlayerIndex]->GetPlayerState<AHWPlayerState>())
+	if (bIsTimeOver)
 	{
-		//AllPlayerControllers[CurPlayerIndex]->ClientRPCSetSetTurnTextTurnText(HWPS->CurrentGuessCount);
+		IncreaseGuessCount(AllPlayerControllers[CurPlayerIndex]);
+		JudgeGame(AllPlayerControllers[CurPlayerIndex], 0);
 	}
 
 	CurPlayerIndex = (CurPlayerIndex + 1) % AllPlayerControllers.Num();
 	if (AHWGameStateBase* HWGS = GetGameState<AHWGameStateBase>())
 	{
-		HWGS->StartTurnTimer();
-
-		if (AHWPlayerState* HWPS = AllPlayerControllers[CurPlayerIndex]->GetPlayerState<AHWPlayerState>())
+		if (HWGS->GetIsGameStart())
 		{
-			FString Msg = HWPS->PlayerNameString + " Turn!";
-			
-			SendToClientMsg(nullptr, Msg);
+			HWGS->StartTurnTimer();
+
+			if (AHWPlayerState* HWPS = AllPlayerControllers[CurPlayerIndex]->GetPlayerState<AHWPlayerState>())
+			{
+				FString Msg = HWPS->PlayerNameString + " Turn!";
+
+				SendToClientMsg(nullptr, Msg);
+			}
 		}
 	}
 }
